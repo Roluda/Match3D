@@ -106,13 +106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ac3b39c50875b14a90f1fc911e7598d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
   colorMap: {fileID: 11400000, guid: f181f88d59330a549b49c6f53c0c45a7, type: 2}
-  isMatch: 0
-  left: {fileID: 0}
-  right: {fileID: 0}
-  back: {fileID: 0}
-  front: {fileID: 0}
-  top: {fileID: 0}
-  bottom: {fileID: 0}
-  isActive: 1
+  render: {fileID: 7739545748343452738}
+  col: {fileID: 7739545748343452739}

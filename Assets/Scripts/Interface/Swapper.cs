@@ -35,7 +35,7 @@ namespace NinjaCactus.Interface {
             if (Input.GetKeyDown(KeyCode.Mouse0)) {
                 if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, Mathf.Infinity, blockLayer)){
                     if(hit.collider.TryGetComponent(out Matchable match)) {
-                        HandleMatch(match);
+                        TryMatchSwap(match);
                     }
                 }
             }
@@ -44,7 +44,7 @@ namespace NinjaCactus.Interface {
             }
         }
 
-        void HandleMatch(Matchable match) {
+        void TryMatchSwap(Matchable match) {
             if (buffer) {
                 Swap(buffer, match);
                 if (match.AnyMatch()||buffer.AnyMatch()) {

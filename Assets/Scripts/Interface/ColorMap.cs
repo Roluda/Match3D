@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace NinjaCactus.Visuals{
+namespace NinjaCactus.Gamelogic{
     [CreateAssetMenu(menuName = "ColorMap")]
     public class ColorMap : ScriptableObject {
         [SerializeField]

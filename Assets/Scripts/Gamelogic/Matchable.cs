@@ -1,64 +1,46 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using NinjaCactus.Visuals;
 
 namespace NinjaCactus.Gamelogic {
     [RequireComponent(typeof(Collider)), RequireComponent(typeof(Renderer))]
     public class Matchable : MonoBehaviour {
-        int typeBuffer = 0;
+        int type_ = 0;
         public int type {
-            get {
-                return typeBuffer;
-            }
+            get => type_;
             set {
-                typeBuffer = value;
+                type_ = value;
                 ApplyColor(colorMap.GetColor(value));
             }
         }
 
-        [SerializeField]
-        ColorMap colorMap = default;
-        [HideInInspector]
-        public bool isMatch;
-        [HideInInspector]
-        public Matchable left;
-        [HideInInspector]
-        public Matchable right;
-        [HideInInspector]
-        public Matchable back;
-        [HideInInspector]
-        public Matchable front;
-        [HideInInspector]
-        public Matchable top;
-        [HideInInspector]
-        public Matchable bottom;
-
-
-        Renderer render;
-        Collider col;
-        public bool isActive = true;
-
-        void Activate() {
-            isActive = true;
-            col.enabled = true;
-        }
-
-        void Deactivate() {
-            isActive = false;
-            col.enabled = false;
-        }
-
-        void CheckMatches() {
-            if(AnyMatch()) {
-                isMatch = true;
-            } else {
-                isMatch = false;
+        bool isActive_ = true;
+        public bool isActive {
+            get => isActive_;
+            set {
+                isActive_ = value;
+                col.enabled = value;
             }
         }
 
+        public bool isMatch { get; set; }
+        public Matchable left { get; set; }
+        public Matchable right { get; set; }
+        public Matchable back { get; set; }
+        public Matchable front { get; set; }
+        public Matchable top { get; set; }
+        public Matchable bottom { get; set; }
+
+
+        [SerializeField]
+        ColorMap colorMap = default;
+        [SerializeField]
+        Renderer render = default;
+        [SerializeField]
+        Collider col = default;
+
         private void Update() {
-            CheckMatches();
+            isMatch = AnyMatch();
             if (isActive) {
                 render.material.SetFloat("_LastActive", Time.time);
             }
@@ -66,9 +48,9 @@ namespace NinjaCactus.Gamelogic {
 
         private void LateUpdate() {
             if (isActive && isMatch) {
-                Deactivate();
+                isActive = false;
             } else if(!isActive && !isMatch) {
-                Activate();
+                isActive = true;
             }
         }
 
@@ -80,12 +62,6 @@ namespace NinjaCactus.Gamelogic {
             render.material.SetFloat("_Highlighted", 0);
         }
 
-        void ApplyColor(Color color) {
-            render.material.SetColor("_OldColor", render.material.GetColor("_BaseColor"));
-            render.material.SetColor("_BaseColor", color);
-            render.material.SetFloat("_ColorChanged", Time.time);
-        }
-
         public bool IsNeighbor(Matchable candidate) {
             return (candidate == top 
                 || candidate == bottom 
@@ -93,11 +69,6 @@ namespace NinjaCactus.Gamelogic {
                 || candidate == right 
                 || candidate == front 
                 || candidate == back);
-        }
-
-        private void Awake() {
-            render = GetComponent<Renderer>();
-            col = GetComponent<Collider>();
         }
 
         public bool AnyMatch() {
@@ -138,6 +109,12 @@ namespace NinjaCactus.Gamelogic {
 
         public bool BackMatch() {
             return (back && back.isActive == isActive && back.type == type);
+        }
+
+        void ApplyColor(Color color) {
+            render.material.SetColor("_OldColor", render.material.GetColor("_BaseColor"));
+            render.material.SetColor("_BaseColor", color);
+            render.material.SetFloat("_ColorChanged", Time.time);
         }
     }
 }

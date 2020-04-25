@@ -4,20 +4,28 @@ using UnityEngine;
 
 namespace NinjaCactus.Gamelogic {
     public class Matchspace : MonoBehaviour {
+        public static Matchspace Create(Vector3Int size) {
+            GameObject instance = Instantiate(Resources.Load("Matchspace")) as GameObject;
+            Matchspace space = instance.GetComponent<Matchspace>();
+            space.NewGrid(size);
+            return space;
+        }
 
-        [SerializeField]
-        int width;
-        [SerializeField]
-        int height;
-        [SerializeField]
-        int depth;
+        public Matchable[,,] grid { get; private set; }
+        public int width { get; private set; }
+        public int height { get; private set; }
+        public int depth { get; private set; }
+
         [SerializeField]
         Matchable prefab;
 
-        public Matchable[,,] grid;
-
-        // Start is called before the first frame update
-        void Start() {
+        public void NewGrid(Vector3Int size) {
+            width = size.x;
+            height = size.y;
+            depth = size.z;
+            NewGrid();
+        }
+        public void NewGrid() {
             CreateGrid();
             SetHorizontalNeighbors();
             SetVerticalNeighbors();
