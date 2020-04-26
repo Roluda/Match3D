@@ -14,7 +14,7 @@ namespace NinjaCactus.Gamelogic {
             }
         }
 
-        bool isActive_ = true;
+        bool isActive_ = false;
         public bool isActive {
             get => isActive_;
             set {
@@ -23,7 +23,7 @@ namespace NinjaCactus.Gamelogic {
             }
         }
 
-        public bool isMatch { get; set; }
+        public bool isMatch { get; private set; }
         public Matchable left { get; set; }
         public Matchable right { get; set; }
         public Matchable back { get; set; }

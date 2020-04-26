@@ -19,7 +19,7 @@ public class JsonToGeneratorConverter
         }
 
         EditorUtility.FocusProjectWindow();
-        AssetDatabase.CreateAsset(asset, "Assets/Resources/Generators/New Generator.asset");
+        AssetDatabase.CreateAsset(asset, "Assets/Resources/Generators/G_TM_New.asset");
         AssetDatabase.SaveAssets();
         Selection.activeObject = asset;
     }

@@ -19,13 +19,22 @@ namespace NinjaCactus.Gamelogic {
         [SerializeField]
         Matchable prefab;
 
-        public void NewGrid(Vector3Int size) {
+        public bool InEquilibrium() {
+            foreach(Matchable match in grid) {
+                if (!match.AnyMatch()) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        void NewGrid(Vector3Int size) {
             width = size.x;
             height = size.y;
             depth = size.z;
             NewGrid();
         }
-        public void NewGrid() {
+        void NewGrid() {
             CreateGrid();
             SetHorizontalNeighbors();
             SetVerticalNeighbors();

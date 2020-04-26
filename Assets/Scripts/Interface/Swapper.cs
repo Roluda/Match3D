@@ -19,7 +19,6 @@ namespace NinjaCactus.Interface {
             }
         }
 
-
         struct SwapPair {
             public SwapPair(Matchable first, Matchable second) {
                 this.first = first;
@@ -30,6 +29,7 @@ namespace NinjaCactus.Interface {
         }
         Stack<SwapPair> undoStack = new Stack<SwapPair>();
 
+
         // Update is called once per frame
         void Update() {
             if (Input.GetKeyDown(KeyCode.Mouse0)) {
@@ -39,6 +39,7 @@ namespace NinjaCactus.Interface {
                     }
                 }
             }
+
             if (Input.GetKeyDown(KeyCode.Z)) {
                 Undo();
             }
@@ -49,10 +50,11 @@ namespace NinjaCactus.Interface {
                 Swap(buffer, match);
                 if (match.AnyMatch()||buffer.AnyMatch()) {
                     undoStack.Push(new SwapPair(buffer, match));
+                    buffer = null;
                 } else {
-                    Swap(buffer, match);      
+                    Swap(buffer, match);
+                    buffer = match;
                 }
-                buffer = null;
             } else {
                 buffer = match;
             }
