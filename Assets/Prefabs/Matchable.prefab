@@ -52,10 +52,10 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
   m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
@@ -106,6 +106,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ac3b39c50875b14a90f1fc911e7598d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
+  isActive: 0
   colorMap: {fileID: 11400000, guid: f181f88d59330a549b49c6f53c0c45a7, type: 2}
   render: {fileID: 7739545748343452738}
   col: {fileID: 7739545748343452739}

@@ -5,5 +5,8 @@ using NinjaCactus.Gamelogic;
 
 namespace NinjaCactus {
     public class GameManager : MonoBehaviour {
+        public void QuitApplication() {
+            Application.Quit();
+        }
     }
 }

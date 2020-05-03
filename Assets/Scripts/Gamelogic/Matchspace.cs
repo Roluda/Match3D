@@ -27,6 +27,26 @@ namespace NinjaCactus.Gamelogic {
             }
             return true;
         }
+        public bool IsSolvable() {
+            foreach(Matchable match in grid) {
+                if (!match.AnyMatch() && !match.Solvable()) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        public void Step() {
+            foreach(Matchable match in grid) {
+                match.Flag();
+            }
+            foreach(Matchable match in grid) {
+                match.UpdateState();
+            }
+        }
+
+        void FixedUpdate() {
+            Step();
+        }
 
         void NewGrid(Vector3Int size) {
             width = size.x;
@@ -46,7 +66,10 @@ namespace NinjaCactus.Gamelogic {
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
                     for (int z = 0; z < depth; z++) {
-                        grid[x,y,z] = Instantiate(prefab, new Vector3(x-width/2,y-height/2,z-depth/2), Quaternion.identity, transform);
+                        grid[x,y,z] = Instantiate(
+                            prefab, 
+                            new Vector3(x-((float)width-1)/2,y-((float)height-1)/2,z-((float)depth-1)/2), 
+                            Quaternion.identity, transform);
                     }
                 }
             }

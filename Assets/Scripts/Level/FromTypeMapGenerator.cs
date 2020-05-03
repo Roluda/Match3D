@@ -21,6 +21,7 @@ namespace NinjaCactus.Level {
                     }
                 }
             }
+            space.Step();
             return space;
         }
     }

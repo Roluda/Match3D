@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using NinjaCactus.Gamelogic;
+using NinjaCactus.AI;
 
 namespace NinjaCactus.Level {
     [CreateAssetMenu(menuName="Generator/RandomBucket")]
@@ -9,9 +10,20 @@ namespace NinjaCactus.Level {
         protected Vector3Int spaceSize;
         [SerializeField]
         int[] buckets;
-        public override Matchspace Generate() {
-            Matchspace space = Matchspace.Create(spaceSize);
 
+        public override Matchspace Generate() {
+            int count = 0;
+            Matchspace space = Matchspace.Create(spaceSize);
+            do {
+                count++;
+                Randomize(space);
+                space.Step();
+            } while (!EquilibriumFinder.Search(space));
+            Debug.Log("Iterations until solution found: " + count);
+            return space;
+        }
+
+        void Randomize(Matchspace space) {
             List<int> types = new List<int>();
             for (int b = 0; b < buckets.Length; b++) {
                 for (int i = 0; i < buckets[b]; i++) {
@@ -33,7 +45,6 @@ namespace NinjaCactus.Level {
                     match.type = -1;
                 }
             }
-            return space;
         }
     }
 }

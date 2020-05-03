@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using NinjaCactus.Gamelogic;
+using NinjaCactus.AI;
 
 namespace NinjaCactus.Interface {
     public class Swapper : MonoBehaviour {
 
         [SerializeField]
         LayerMask blockLayer;
+
 
         Matchable bufferData;
         Matchable buffer {
@@ -17,15 +19,6 @@ namespace NinjaCactus.Interface {
                 bufferData = value;
                 bufferData?.Highlight();
             }
-        }
-
-        struct SwapPair {
-            public SwapPair(Matchable first, Matchable second) {
-                this.first = first;
-                this.second = second;
-            }
-            public Matchable first;
-            public Matchable second;
         }
         Stack<SwapPair> undoStack = new Stack<SwapPair>();
 
@@ -46,24 +39,20 @@ namespace NinjaCactus.Interface {
         }
 
         void TryMatchSwap(Matchable match) {
-            if (buffer) {
-                Swap(buffer, match);
-                if (match.AnyMatch()||buffer.AnyMatch()) {
-                    undoStack.Push(new SwapPair(buffer, match));
+            if (buffer && buffer.isActive) {
+                SwapPair swap = new SwapPair(buffer, match);
+                if (swap.MatchingSwap()) {
+                    swap.Swap();
+                    undoStack.Push(swap);
                     buffer = null;
                 } else {
-                    Swap(buffer, match);
-                    buffer = match;
+                    swap.Swap();
+                    StartCoroutine(SwapBack(swap));
+                    buffer = null;
                 }
             } else {
                 buffer = match;
             }
-        }
-
-        void Swap(Matchable first, Matchable second) {
-            int firstType = first.type;
-            first.type = second.type;
-            second.type = firstType;
         }
 
         public void Reset() {
@@ -74,8 +63,13 @@ namespace NinjaCactus.Interface {
         public void Undo() {
             if (undoStack.Count > 0) {
                 SwapPair nextUndo = undoStack.Pop();
-                Swap(nextUndo.first, nextUndo.second);
+                nextUndo.Swap();
             }
+        }
+
+        IEnumerator SwapBack(SwapPair swap) {
+            yield return new WaitForFixedUpdate();
+            swap.Swap();
         }
     }
 }
