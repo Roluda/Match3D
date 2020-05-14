@@ -93,6 +93,29 @@ namespace NinjaCactus.Gamelogic {
                 || candidate == back);
         }
 
+        public List<Matchable> GetNeighbors() {
+            List<Matchable> neighbors = new List<Matchable>();
+            if (top) {
+                neighbors.Add(top);
+            }
+            if (bottom) {
+                neighbors.Add(bottom);
+            }
+            if (left) {
+                neighbors.Add(left);
+            }
+            if (right) {
+                neighbors.Add(right);
+            }
+            if (front) {
+                neighbors.Add(front);
+            }
+            if (back) {
+                neighbors.Add(back);
+            }
+            return neighbors;
+        }
+
         public bool AnyMatch() {
             return HorizontalMatch() || VerticalMatch() || DepthMatch();
         }

@@ -17,5 +17,9 @@ namespace NinjaCactus.Gamelogic{
                 return defaultColor;
             }
         }
+
+        public Color RandomColor() {
+            return colors[Random.Range(0, colors.Length)];
+        }
     }
 }

@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using NinjaCactus.Gamelogic;
 using NinjaCactus.AI;
+using UnityEngine.Events;
 
 namespace NinjaCactus.Interface {
     public class Swapper : MonoBehaviour {
 
         [SerializeField]
         LayerMask blockLayer;
+        [SerializeField]
+        UnityEvent onSwapSuccess;
+        [SerializeField]
+        UnityEvent onSwapFail;
+        [SerializeField]
+        UnityEvent onBufferSet;
 
 
         Matchable bufferData;
@@ -45,13 +52,16 @@ namespace NinjaCactus.Interface {
                     swap.Swap();
                     undoStack.Push(swap);
                     buffer = null;
+                    onSwapSuccess?.Invoke();
                 } else {
                     swap.Swap();
                     StartCoroutine(SwapBack(swap));
                     buffer = null;
+                    onSwapFail?.Invoke();
                 }
             } else {
                 buffer = match;
+                onBufferSet?.Invoke();
             }
         }
 
